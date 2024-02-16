@@ -12,18 +12,22 @@ export default function Forecast(props) {
   }
 
   return (
-    <div className="flex items-center flex-col h-2/4">
-      <h1 className="text-4xl font-bold">
-        {props?.city[0] + " " + props?.city[1] === props?.state
-          ? ""
-          : props?.city[0]}{" "}
-        {props?.state}
-      </h1>
-      <img
-        src={`../svgs/${props?.weather}.svg`}
-        alt={`${props?.weather}`}
-        className="w-4/6 h-4/6"
-      />
+    <div className="flex items-center flex-col h-4/6">
+      <div className="overflow-hidden pb-10">
+        <h1 className="text-4xl font-bold animate-BottomSlide">
+          {props?.city[0] + " " + props?.city[1] === props?.state
+            ? ""
+            : props?.city[0]}{" "}
+          {props?.state}
+        </h1>
+      </div>
+      <div className="flex items-center justify-center w-full h-72">
+        <img
+          src={`../svgs/${props?.weather}.svg`}
+          alt={`${props?.weather}`}
+          className="w-4/6 h-screen"
+        />
+      </div>
       <h2 className="text-5xl font-bold">
         {Math.round(props?.tempreture?.temp)}°
       </h2>

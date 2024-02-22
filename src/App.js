@@ -20,10 +20,8 @@ export default function App() {
     document.querySelector(".info-container")?.classList.toggle("flex");
   }
 
-  console.log(city);
-
   React.useEffect(() => {
-    if (city.length === 1) {
+    if (city?.length === 1) {
       fetch(
         `http://api.openweathermap.org/geo/1.0/direct?q=${city[0]}&appid=${process.env.REACT_APP_API_KEY}`
       )
@@ -37,21 +35,7 @@ export default function App() {
         });
     }
 
-    if (city.length === 2) {
-      fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${city[0]},${city[1]}}&appid=${process.env.REACT_APP_API_KEY}`
-      )
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          if (data.cod !== "400") {
-            setLocation(...data);
-          }
-        });
-    }
-
-    if (city.length === 3) {
+    if (city?.length === 3) {
       fetch(
         `http://api.openweathermap.org/geo/1.0/direct?q=${city[0]},${city[1]},${city[2]}}&appid=${process.env.REACT_APP_API_KEY}`
       )
@@ -78,19 +62,17 @@ export default function App() {
         }
       })
       .then((data) => {
-        console.log("Here");
         setWeatherData(data.weather ? { ...data.weather[0] } : {});
         setWeatherInfo(data);
       })
       .catch((error) => {
         setLocation(null);
-        console.log(error);
       });
   }, [location]);
 
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-gradient-to-t from-sky-500 to-teal-300">
-      {city.length !== 0 ? (
+      {city?.length !== 0 ? (
         <div className="w-2/6 h-5/6 bg-gradient-to-t from-sky-400 to-teal-200 backdrop-filter-md shadow-md rounded-md flex flex-col transform transition-all ease-out duration-1000 overflow-hidden">
           <div
             className="absolute left-2 top-2 bg-slate-400 h-5 w-5 rounded-full flex justify-center items-center bg-opacity-80 cursor-pointer"
@@ -118,6 +100,7 @@ export default function App() {
             <div className="h-5/6">
               <Forecast
                 city={city}
+                location={location}
                 tempreture={weatherInfo?.main}
                 weather={weatherData?.main}
               />
